@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PacienteComponent } from './paciente/paciente.component';
 import { EspecialistaComponent } from './especialista/especialista.component';
 import { BienvenidoComponent } from './bienvenido/bienvenido.component';
+import { HighlightDirective } from '../directives/highlight.directive';
 
 
 @NgModule({
@@ -17,6 +18,7 @@ import { BienvenidoComponent } from './bienvenido/bienvenido.component';
     RegisterComponent,
     PacienteComponent,
     EspecialistaComponent,
+    HighlightDirective
   ],
   imports: [
     CommonModule,

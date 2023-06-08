@@ -9,10 +9,10 @@
     <main>
         <div style="display:flex; justify-content:center; margin-top: 10%;">
             <div *ngIf="database.roleUser == 'paciente' || database.roleUser == 'admin'">
-                <button style="border: none; padding: 80px; border-radius: 10px; margin: 5px;" (click)="SeHizoClick('paciente')">Pacientes</button>
+                <button style="border: none; padding: 80px; border-radius: 10px; margin: 5px;"appHighlight appHighLight="#ffff009c" (click)="SeHizoClick('paciente')">Pacientes</button>
             </div>
             <div *ngIf="database.roleUser == 'especialista' || database.roleUser == 'admin'">
-                <button style="border: none; padding: 80px; border-radius: 10px; margin: 5px;" (click)="SeHizoClick('especialista')">Especialistas</button>
+                <button style="border: none; padding: 80px; border-radius: 10px; margin: 5px;"appHighlight appHighLight="#0080009c" (click)="SeHizoClick('especialista')">Especialistas</button>
             </div>
         </div>
     </main>
