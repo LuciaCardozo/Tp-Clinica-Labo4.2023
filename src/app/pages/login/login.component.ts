@@ -39,6 +39,7 @@ export class LoginComponent {
           this.database.onLogin(this.user.email, this.user.password).then(()=>{
           this.database.emailUsuarioLogeado = this.user.email;
           setTimeout(() => {        
+            this.database.isLogged = true;
             this.database.roleUser = existe.role;
             this.loading = false;
             this.router.navigate(['/bienvenido']);
