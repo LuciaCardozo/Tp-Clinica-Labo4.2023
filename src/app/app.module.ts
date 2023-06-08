@@ -13,7 +13,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   declarations: [
     AppComponent,
-    ToastComponent
+    ToastComponent,
   ],
   imports: [
     CommonModule,

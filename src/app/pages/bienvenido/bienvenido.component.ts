@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataBaseService } from 'src/app/services/database/database.service';
 
@@ -7,11 +7,15 @@ import { DataBaseService } from 'src/app/services/database/database.service';
   templateUrl: './bienvenido.component.html',
   styleUrls: ['./bienvenido.component.css']
 })
-export class BienvenidoComponent {
-  constructor(private route:Router, private database:DataBaseService) {
+export class BienvenidoComponent implements OnInit{
+  constructor(private route:Router, public database:DataBaseService) {
 
   }
-  SeHizoClik(dato:string) {
+
+  ngOnInit(): void {
+    console.log(this.database.roleUser)
+  }
+  SeHizoClick(dato:string) {
     console.log(this.database.roleUser)
     if(dato == 'login') {
       this.database.roleUser = "";
