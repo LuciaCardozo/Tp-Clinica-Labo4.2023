@@ -1,0 +1,225 @@
+<div class="contenedor">
+    <nav style="display: flex; justify-content: space-between; align-items: center; background-color: rgba(155, 108, 108, 0.747); width: 100%; height: 10vh;">
+        <img src="../../../assets/icons8_hospital.ico" alt="" width="70px" routerLink="/bienvenido">
+        <div>
+            <button routerLink="/bienvenido/login" style="margin: 0 5px; border: none; padding: 5px; border-radius: 10px; cursor: pointer;" *ngIf="database.roleUser == ''">Ingresar</button>
+            <button class="btn btn-dark" routerLink="/bienvenido" style="margin: 0 5px; border: none; padding: 5px; border-radius: 10px; cursor: pointer;" *ngIf="database.roleUser != ''">Volver</button>
+        </div>
+    </nav>
+    <div style="width: 100%; height: 20%;">
+        <div style="width: 100%; display: flex; justify-content: center; margin-top: 5%;">
+            <button class="estiloOpcion" (click)="mostrarOpcion('paciente')">Paciente</button>
+            <button class="estiloOpcion" (click)="mostrarOpcion('especialista')">Especialista</button>
+            <button class="estiloOpcion" (click)="mostrarOpcion('administrador')" *ngIf="database.roleUser == 'admin'">Administrador</button>
+        </div>
+
+        <!-- ALTA PACIENTE -->
+
+        <div *ngIf="paciente">
+            <form style="display: grid; justify-content: center;" [formGroup]="formPaciente" (ngSubmit)="agregarDatosPaciente()">
+                <h1 style="text-align: center;">Alta paciente</h1>
+                <div style="margin-top: 1rem; display: flex; align-items: center; justify-content: center;">
+                    <div style="display: grid; justify-content: center; align-items: center; margin: 5px;">
+                        <div class="d-flex justify-content-center align-items-center">
+                          <img src="{{this.imageToUpload}}" alt="" width="100px" style="margin-bottom: 10px; border-radius: 50px;">
+                        </div>
+                        <input type="file" accept=".png,.jpg" id="inputImg" class="input-file" (change)="uploadImage($event, 'imageToUpload')">
+                        <label class="labelInputImg d-flex justify-content-center align-items-center" for="inputImg">{{this.imageToUpload ? 'Cambiar Imagen': 'Subir Imagen'}}</label>
+                    </div>
+                    <div style="display: grid; justify-content: center; align-items: center; margin: 5px;">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <img src="{{this.imageToUpload2}}" alt="" width="100px" style="margin-bottom: 10px; border-radius: 50px;">
+                        </div>
+                        <input type="file" accept=".png,.jpg" id="inputImg2" class="input-file" (change)="uploadImage($event, 'imageToUpload2')">
+                        <label class="labelInputImg d-flex justify-content-center align-items-center" for="inputImg2">{{this.imageToUpload2 ? 'Cambiar Imagen': 'Subir Imagen'}}</label>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <div style="margin-right: 5px;">
+                        <input placeholder="Nombre" type="text" formControlName='nombre' class="form-control" aria-describedby="abilityNameHelp" style="margin: 5px;">
+                        <div id="abilityNameHelp" class="form-text" *ngIf="formPaciente.get('nombre')?.hasError('required') && formPaciente.get('nombre')?.touched" style="margin: 5px; color: #a12222">
+                            El nombre es requerido.
+                        </div>
+                    </div>
+                    <div style="margin-left: 5px;">
+                        <input placeholder="Apellido" type="text" formControlName='apellido' class="form-control" aria-describedby="abilityNameHelp" style="margin: 5px;">
+                        <div id="abilityNameHelp" class="form-text" *ngIf="formPaciente.get('apellido')?.hasError('required') && formPaciente.get('apellido')?.touched" style="margin: 5px; color: #a12222">
+                            El apellido es requerido.
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <div style="margin-right: 5px;">
+                        <input placeholder="Edad" type="text" formControlName='edad' class="form-control" aria-describedby="abilityNameHelp" style="margin: 5px;">
+                        <div id="abilityNameHelp" class="form-text" *ngIf="formPaciente.get('edad')?.hasError('required') && formPaciente.get('edad')?.touched" style="margin: 5px; color: #a12222">
+                            La edad es requerida.
+                        </div>
+                    </div>
+                    <div style="margin-left: 5px;">
+                        <input placeholder="Dni" type="text" formControlName='dni' class="form-control" aria-describedby="abilityNameHelp" style="margin: 5px;">
+                        <div id="abilityNameHelp" class="form-text" *ngIf="formPaciente.get('dni')?.hasError('required') && formPaciente.get('dni')?.touched" style="margin: 5px; color: #a12222">
+                            El dni es requerido.
+                        </div>
+                    </div>
+                </div>
+                  
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <div style="margin-right: 5px;">
+                            <input placeholder="Mail" type="mail" formControlName='mail' class="form-control" aria-describedby="abilityNameHelp" style="margin: 5px;">
+                            <div id="abilityNameHelp" class="form-text" *ngIf=" formPaciente.get('mail')?.hasError('required') && formPaciente.get('mail')?.touched" style="margin: 5px; color: #a12222">
+                                El mail es requerido.
+                            </div>
+                        </div>
+                        <div style="margin-left: 5px;">
+                            <input placeholder="Password" type="password" formControlName='password' class="form-control" aria-describedby="abilityNameHelp" style="margin: 5px;">
+                            <div id="abilityNameHelp" class="form-text" *ngIf="formPaciente.get('password')?.hasError('required') && formPaciente.get('password')?.touched" style="margin: 5px; color: #a12222">
+                                El password es requerido.
+                            </div>
+                        </div>
+                    </div>
+                
+                    <input placeholder="Obra Social" type="text" formControlName='obraSocial' class="form-control" aria-describedby="abilityNameHelp" style="margin: 5px;">
+                    <div id="abilityNameHelp" class="form-text" *ngIf="formPaciente.get('obraSocial')?.hasError('required') && formPaciente.get('obraSocial')?.touched" style="margin: 5px; color: #a12222">
+                        La obra social es requerida.
+                    </div>
+                <div style="display: flex; justify-content: center; align-items: center; margin-top: 5px;">
+                    <button type="submit" style="border: none; width: 50%; border-radius: 10px; color: white; background-color: rgba(31, 105, 31, 0.863); padding: 10px;">Dar de alta paciente</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- ALTA ESPECIALISTA -->
+
+        <div *ngIf="especialista">
+            <form style="display: grid; justify-content: center;" [formGroup]="formEspecialista" (ngSubmit)="agregarDatosEspecialista()">
+                <h1 style="text-align: center;">Alta Especialista</h1>
+                <div style="margin-top: 1rem; display: flex; align-items: center; justify-content: center;">
+                    <div style="display: grid; justify-content: center; align-items: center; margin: 5px;">
+                        <div class="d-flex justify-content-center align-items-center">
+                          <img src="{{this.imageToUpload}}" alt="" width="100px" style="margin-bottom: 10px; border-radius: 50px;">
+                        </div>
+                        <input type="file" accept=".png,.jpg" id="inputImg" class="input-file" (change)="uploadImage($event, 'imageToUpload')">
+                        <label class="labelInputImg d-flex justify-content-center align-items-center" for="inputImg">{{this.imageToUpload ? 'Cambiar Imagen': 'Subir Imagen'}}</label>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <div style="margin-right: 5px;">
+                        <input placeholder="Nombre" type="text" formControlName='nombre' class="form-control" aria-describedby="abilityNameHelp" style="margin: 5px;">
+                        <div id="abilityNameHelp" class="form-text" *ngIf="formEspecialista.get('nombre')?.hasError('required') && formEspecialista.get('nombre')?.touched" style="margin: 5px; color: #a12222">
+                            El nombre es requerido.
+                        </div>
+                    </div>
+                    <div style="margin-left: 5px;">
+                        <input placeholder="Apellido" type="text" formControlName='apellido' class="form-control" aria-describedby="abilityNameHelp" style="margin: 5px;">
+                        <div id="abilityNameHelp" class="form-text" *ngIf="formEspecialista.get('apellido')?.hasError('required') && formEspecialista.get('apellido')?.touched" style="margin: 5px; color: #a12222">
+                            El apellido es requerido.
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <div style="margin-right: 5px;">
+                        <input placeholder="Edad" type="text" formControlName='edad' class="form-control" aria-describedby="abilityNameHelp" style="margin: 5px;">
+                        <div id="abilityNameHelp" class="form-text" *ngIf="formEspecialista.get('edad')?.hasError('required') && formEspecialista.get('edad')?.touched" style="margin: 5px; color: #a12222">
+                            La edad es requerida.
+                        </div>
+                    </div>
+                    <div style="margin-left: 5px;">
+                        <input placeholder="Dni" type="text" formControlName='dni' class="form-control" aria-describedby="abilityNameHelp" style="margin: 5px;">
+                        <div id="abilityNameHelp" class="form-text" *ngIf="formEspecialista.get('dni')?.hasError('required') && formEspecialista.get('dni')?.touched" style="margin: 5px; color: #a12222">
+                            El dni es requerido.
+                        </div>
+                    </div>
+                </div>
+                
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <div style="margin-right: 5px;">
+                            <input placeholder="Mail" type="mail" formControlName='mail' class="form-control" aria-describedby="abilityNameHelp" style="margin: 5px;">
+                            <div id="abilityNameHelp" class="form-text" *ngIf="formEspecialista.get('mail')?.hasError('required') && formEspecialista.get('mail')?.touched" style="margin: 5px; color: #a12222">
+                                El mail es requerido.
+                            </div>
+                        </div>
+                        <div style="margin-left: 5px;">
+                            <input placeholder="Password" type="password" formControlName='password' class="form-control" aria-describedby="abilityNameHelp" style="margin: 5px;">
+                            <div id="abilityNameHelp" class="form-text" *ngIf="formEspecialista.get('password')?.hasError('required') && formEspecialista.get('password')?.touched" style="margin: 5px; color: #a12222">
+                                El password es requerido.
+                            </div>
+                        </div>
+                    </div>                
+                
+                    <input placeholder="Especialidad" type="text" formControlName='especialidad' class="form-control" aria-describedby="abilityNameHelp" style="margin: 5px;">
+                    <div id="abilityNameHelp" class="form-text" *ngIf="formEspecialista.get('especialidad')?.hasError('required') && formEspecialista.get('especialidad')?.touched" style="margin: 5px; color: #a12222">
+                        La especialidad es requerida.
+                    </div>
+                <div style="display: flex; justify-content: center; align-items: center; margin-top: 5px;">
+                    <button type="submit" style="border: none; width: 50%; border-radius: 10px; color: white; background-color: rgba(31, 105, 31, 0.863); padding: 10px;">Dar de alta especialista</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- ALTA ADMINISTRADOR -->
+
+        <div *ngIf="administrador">
+            <form style="display: grid; justify-content: center;" [formGroup]="formEspecialista" (ngSubmit)="agregarDatosAdministrador()">
+                <h1 style="text-align: center;">Alta Administrador</h1>
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <div style="margin-right: 5px;">
+                        <input placeholder="Nombre" type="text" formControlName='nombre' class="form-control" aria-describedby="abilityNameHelp" style="margin: 5px;">
+                        <div id="abilityNameHelp" class="form-text" *ngIf="formEspecialista.get('nombre')?.hasError('required') && formEspecialista.get('nombre')?.touched" style="margin: 5px; color: #a12222">
+                            El nombre es requerido.
+                        </div>
+                    </div>
+                    <div style="margin-left: 5px;">
+                        <input placeholder="Apellido" type="text" formControlName='apellido' class="form-control" aria-describedby="abilityNameHelp" style="margin: 5px;">
+                        <div id="abilityNameHelp" class="form-text" *ngIf="formEspecialista.get('apellido')?.hasError('required') && formEspecialista.get('apellido')?.touched" style="margin: 5px; color: #a12222">
+                            El apellido es requerido.
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: center; align-items: center;">
+                    <div style="margin-right: 5px;">
+                        <input placeholder="Edad" type="text" formControlName='edad' class="form-control" aria-describedby="abilityNameHelp" style="margin: 5px;">
+                        <div id="abilityNameHelp" class="form-text" *ngIf="formEspecialista.get('edad')?.hasError('required') && formEspecialista.get('edad')?.touched" style="margin: 5px; color: #a12222">
+                            La edad es requerida.
+                        </div>
+                    </div>
+                    <div style="margin-left: 5px;">
+                        <input placeholder="Dni" type="text" formControlName='dni' class="form-control" aria-describedby="abilityNameHelp" style="margin: 5px;">
+                        <div id="abilityNameHelp" class="form-text" *ngIf="formEspecialista.get('dni')?.hasError('required') && formEspecialista.get('dni')?.touched" style="margin: 5px; color: #a12222">
+                            El dni es requerido.
+                        </div>
+                    </div>
+                </div>
+                
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <div style="margin-right: 5px;">
+                            <input placeholder="Mail" type="mail" formControlName='mail' class="form-control" aria-describedby="abilityNameHelp" style="margin: 5px;">
+                            <div id="abilityNameHelp" class="form-text" *ngIf="formEspecialista.get('mail')?.hasError('required') && formEspecialista.get('mail')?.touched" style="margin: 5px; color: #a12222">
+                                El mail es requerido.
+                            </div>
+                        </div>
+                        <div style="margin-left: 5px;">
+                            <input placeholder="Password" type="password" formControlName='password' class="form-control" aria-describedby="abilityNameHelp" style="margin: 5px;">
+                            <div id="abilityNameHelp" class="form-text" *ngIf="formEspecialista.get('password')?.hasError('required') && formEspecialista.get('password')?.touched" style="margin: 5px; color: #a12222">
+                                El password es requerido.
+                            </div>
+                        </div>
+                    </div>                
+                
+                    <input placeholder="Especialidad" type="text" formControlName='especialidad' class="form-control" aria-describedby="abilityNameHelp" style="margin: 5px;">
+                    <div id="abilityNameHelp" class="form-text" *ngIf="formEspecialista.get('especialidad')?.hasError('required') && formEspecialista.get('especialidad')?.touched" style="margin: 5px; color: #a12222">
+                        La especialidad es requerida.
+                    </div>
+                <div style="display: flex; justify-content: center; align-items: center; margin-top: 5px;">
+                    <button type="submit" style="border: none; width: 50%; border-radius: 10px; color: white; background-color: rgba(31, 105, 31, 0.863); padding: 10px;">Dar de alta especialista</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="loading" style="width: 100vw; height: 100vh; display: flex; position: fixed;
+  top: 0; left: 0; background-color: #198754ad; justify-content: center; align-items: center;">
+  <div>
+    <img src="../../../assets/logoPng.png" alt="" width="80px" class="loading">
+  </div>
+</div>
